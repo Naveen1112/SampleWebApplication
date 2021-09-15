@@ -8,8 +8,9 @@ node{
   stage('Compile-Package'){
     //Get Maven Home Path
     def mvnHome = tool name: 'maven-3', type: 'maven'
-    sh "${mvnHome}/bin/mvn compile"
-    sh "${mvnHome}/bin/mvn package"
+    //sh "${mvnHome}/bin/mvn compile"
+    //sh "${mvnHome}/bin/mvn package"
+    sh "${mvnHome}/bin/mvn clean install"
   }
   stage('Deploy to Tomcat'){
     sshagent(['tomcat_user']) {
