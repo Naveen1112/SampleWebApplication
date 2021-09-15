@@ -1,14 +1,15 @@
-pipeline
-{
-  agent any
-stage ('Compile Stage') {
-sh 'mvn clean compile'
-}
-stage ('Testing Stage') {
-sh 'mvn test'
-
-}
-stage ('Deployment Stage') {
-sh 'mvn deploy'
-}
+node{
+  stage('SCM Checkout'){
+    git 'https://github.com/Naveen1112/SampleWebApplication'
+  }
+  stage('Compile-Package'){
+    //Get Maven Home Path
+    def mvnHome = tool name: 'maven-3', type: 'maven'
+    sh "${mvnHome}/bin/mvn package"
+  }
+  stage('Deploy to Tomcat'){
+    sshagent(['tomcat_user']) {
+      sh 'scp -o StrictHostKeyChecking=no target/*war/ ec2-user@ip-172-31-95-197.ec2.internal:/home/ec2-user/tomcat/apache-tomcat-8.5.71/webapps/'
+    }
+  }
 }
