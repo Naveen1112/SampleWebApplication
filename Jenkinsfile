@@ -1,6 +1,7 @@
 node{
   environment{
     PATH = "/home/ec2-user/apache-maven-3.8.2/bin:$PATH"
+  }
   stage('SCM Checkout'){
     git 'https://github.com/Naveen1112/SampleWebApplication'
   }
