@@ -1,11 +1,13 @@
 node{
+  environment{
+    PATH = "/home/ec2-user/apache-maven-3.8.2/bin:$PATH"
   stage('SCM Checkout'){
     git 'https://github.com/Naveen1112/SampleWebApplication'
   }
   stage('Compile-Package'){
     //Get Maven Home Path
-    def mvnHome = tool name: 'maven-3', type: 'maven'
-    sh "${mvnHome}/bin/mvn package"
+    //def mvnHome = tool name: 'maven-3', type: 'maven'
+    sh "mvn clean install"
   }
   stage('Deploy to Tomcat'){
     sshagent(['tomcat_user']) {
